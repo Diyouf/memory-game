@@ -1,0 +1,13 @@
+<div class="container mt-44 ">
+    <h1 class="text-center font-bold text-2xl font-mono">Memmory game</h1>
+    <div class="p-5 flex justify-center items-center">
+        <div class="grid grid-cols-4 gap-3" >
+            <div class="flip-card "*ngFor="let item of DuplicateArray">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front rounded-lg"></div>
+                    <div class="flip-card-back rounded-lg text-6xl flex items-center justify-center">{{item}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
