@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import * as confetti from 'canvas-confetti';
-
-
 
 
 @Component({
@@ -11,20 +9,26 @@ import * as confetti from 'canvas-confetti';
 })
 export class GameTempleteComponent implements OnInit {
 
+  
   constructor(
+    private renderer2: Renderer2,
+    private elementRef: ElementRef
   ) {}
 
-
-  iconsArray: string[] = ['🎶', '☠️', '🤖', '🐚', '🕊️', '🦚']
-  DuplicateArray: string[] = [...this.iconsArray, ...this.iconsArray]
+  iconsArray: string[] = []
+  DuplicateArray: string[] = []
   shuffeledArray: { icon: string, flipped: boolean, solved: boolean, position: number }[] = []
   timeout!: any
+  moves : number = 0
 
   ngOnInit(): void {
     this.startGame()
   }
 
   startGame() {
+    this.moves = 30
+    this.iconsArray = ['🎶', '☠️', '🤖', '🐚', '🕊️', '🦚']
+    this.DuplicateArray = [...this.iconsArray, ...this.iconsArray]
     while (this.shuffeledArray.length < this.iconsArray.length * 2) {
       let randomIndex1 = Math.floor((Math.random() * this.DuplicateArray.length));
       this.shuffeledArray.push({
@@ -38,11 +42,15 @@ export class GameTempleteComponent implements OnInit {
   }
 
   handleActive(data: { icon: string, flipped: boolean, solved: boolean, position: number }) {
+   
     const flippeddata = this.shuffeledArray.filter((item) => item.flipped && !item.solved)
     if (flippeddata.length === 2) return
     this.shuffeledArray.map((item) => {
       if (item.position === data.position) {
         item.flipped = !item.flipped
+        if(item.flipped === true){
+          this.moves --
+        }
       }
     })
 
@@ -81,20 +89,31 @@ export class GameTempleteComponent implements OnInit {
     return this.shuffeledArray.length > 0 && this.shuffeledArray.every(piece => piece.solved);
   }
 
-  // celebrate() {
-  //   console.log("hai");
-    
-  //   const confettiSettings = {
-  //     particleCount: 100,
-  //     spread: 70,
-  //     colors: ['#FF0000', '#00FF00', '#0000FF'],
-  //     target: 'confetti-canvas',
-  //   };
+  clicked = false;
+ 
+ 
+  surprise(): void {
+    const canvas = this.renderer2.createElement('canvas');
+ 
+    canvas.id = 'confetti-canvas';
 
-   
-  //     confetti(confettiSettings);
-    
-  // }
+    const targetDiv = this.elementRef.nativeElement.querySelector('.absolute.bg-black.bg-opacity-50.pt-72');
+    this.renderer2.appendChild(targetDiv, canvas);
+
+    const myConfetti = confetti.create(canvas, {
+        resize: true,
+    });
+
+    myConfetti();
+
+    this.clicked = true;
+}
+
+restart(){
+  this.startGame()
+  window.location.reload()
+}
+
 
 
 
