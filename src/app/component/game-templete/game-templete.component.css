@@ -1,6 +1,6 @@
 .flip-card {
     background-color: transparent;
-    width: 200px;
+    width: 180px;
     height: 140px;
     /* border: 1px solid #f1f1f1; */
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
@@ -42,6 +42,16 @@
     color: white;
     transform: rotateY(180deg);
   }
+
+  canvas {
+    height: 100%; /* we need these for full-screen effect */
+    width: 100%;
+  }
+  
+   
+ 
+   
+  
 
   
   

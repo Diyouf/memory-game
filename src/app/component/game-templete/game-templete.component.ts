@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import * as confetti from 'canvas-confetti';
+
+
+
 
 @Component({
   selector: 'app-game-templete',
@@ -6,15 +10,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game-templete.component.css']
 })
 export class GameTempleteComponent implements OnInit {
-  constructor() { }
-  ngOnInit(): void {
-    this.startGame()
-  }
+
+  constructor(
+  ) {}
+
 
   iconsArray: string[] = ['🎶', '☠️', '🤖', '🐚', '🕊️', '🦚']
   DuplicateArray: string[] = [...this.iconsArray, ...this.iconsArray]
   shuffeledArray: { icon: string, flipped: boolean, solved: boolean, position: number }[] = []
   timeout!: any
+
+  ngOnInit(): void {
+    this.startGame()
+  }
 
   startGame() {
     while (this.shuffeledArray.length < this.iconsArray.length * 2) {
@@ -63,13 +71,31 @@ export class GameTempleteComponent implements OnInit {
     }
   }
 
+
   ngOnDestroy(): void {
     clearTimeout(this.timeout);
   }
 
+
   isGameCompleted(): boolean {
     return this.shuffeledArray.length > 0 && this.shuffeledArray.every(piece => piece.solved);
   }
+
+  // celebrate() {
+  //   console.log("hai");
+    
+  //   const confettiSettings = {
+  //     particleCount: 100,
+  //     spread: 70,
+  //     colors: ['#FF0000', '#00FF00', '#0000FF'],
+  //     target: 'confetti-canvas',
+  //   };
+
+   
+  //     confetti(confettiSettings);
+    
+  // }
+
 
 
 }
