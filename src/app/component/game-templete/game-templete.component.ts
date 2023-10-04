@@ -91,8 +91,16 @@ export class GameTempleteComponent implements OnInit {
 
   clicked = false;
  
+  playAudio(){
+    let audio = new Audio();
+    audio.src = "assets/audio/confettiSoundEffect.mp3";
+    audio.load();
+    audio.play();
+    
+  }
  
   surprise(): void {
+    this.playAudio();
     const canvas = this.renderer2.createElement('canvas');
  
     canvas.id = 'confetti-canvas';
